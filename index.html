@@ -478,199 +478,198 @@
 </div>
 
 <script>
-  // === CAROUSEL ===
-  let currentSlide = 0;
-  const slides = document.querySelectorAll('.hero-slide');
-  const dots = document.querySelectorAll('.dot');
-  function goSlide(n) {
-    slides[currentSlide].classList.remove('active'); dots[currentSlide].classList.remove('active');
-    currentSlide = (n + slides.length) % slides.length;
-    slides[currentSlide].classList.add('active'); dots[currentSlide].classList.add('active');
-  }
-  function changeSlide(dir) { goSlide(currentSlide + dir); }
-  setInterval(() => changeSlide(1), 3000);
-
-  // === FORFAITS ===
-  function scrollForfaits(dir) {
-    document.getElementById('forfaitsScroll').scrollBy({ left: dir * 350, behavior: 'smooth' });
-  }
-
-  // === ACCORDION ===
-  function expandAccord(idx) {
-    document.querySelectorAll('.accord-item').forEach((item, i) =>
-      item.classList.toggle('expanded', i === idx)
-    );
-  }
-
-  // === CHATBOT GROQ ===
-  const chatHistory = [];
-  let chatOpen = false;
-  let welcomeDone = false;
-
-  // ⚠️ حط هنا الـ API Key الجديد متاعك من console.groq.com/keys
-  const GROQ_API_KEY = 'gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-
-  const SYSTEM_PROMPT = `Tu es l'assistant virtuel officiel de Tunisie Telecom. Tu résous les problèmes des clients étape par étape.
-
-LANGUE — règle stricte:
-- Client écrit en arabe → réponds en arabe standard (فصحى)
-- Client écrit en français → réponds en français
-- Client écrit en anglais → réponds en anglais
-- Ne mélange JAMAIS les langues
-
-COMPORTEMENT OBLIGATOIRE:
-1. Analyse le problème du client
-2. Donne des solutions étape par étape
-3. Pose des questions si besoin pour mieux comprendre
-4. Le numéro 1298 UNIQUEMENT si toutes les solutions ont échoué
-
-SOLUTIONS PAR PROBLÈME:
-
-INTERNET LENT / COUPÉ:
-- Redémarre le routeur (éteins 30 sec → rallume)
-- Vérifie les voyants du routeur (vert = OK, rouge = problème)
-- Teste avec un autre appareil
-- Vérifie ton forfait sur mytt.tunisietelecom.tn
-- Vérifie la couverture réseau dans ta zone
-
-RÉSEAU / COUVERTURE:
-- Active puis désactive le mode avion (10 secondes)
-- Déplace-toi vers une fenêtre ou un espace ouvert
-- Redémarre le téléphone
-- Vérifie: tunisietelecom.tn/couverture
-
+ // === CAROUSEL ===
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.dot');
+function goSlide(n) {
+  slides[currentSlide].classList.remove('active'); dots[currentSlide].classList.remove('active');
+  currentSlide = (n + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active'); dots[currentSlide].classList.add('active');
+}
+function changeSlide(dir) { goSlide(currentSlide + dir); }
+setInterval(() => changeSlide(1), 3000);
+ 
+// === FORFAITS ===
+function scrollForfaits(dir) {
+  document.getElementById('forfaitsScroll').scrollBy({ left: dir * 350, behavior: 'smooth' });
+}
+ 
+// === ACCORDION ===
+function expandAccord(idx) {
+  document.querySelectorAll('.accord-item').forEach((item, i) =>
+    item.classList.toggle('expanded', i === idx)
+  );
+}
+ 
+// === CHATBOT GROQ ===
+const chatHistory = [];
+let chatOpen = false;
+let welcomeDone = false;
+ 
+const GROQ_API_KEY = 'gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+ 
+const SYSTEM_PROMPT = `You are the official virtual assistant of Tunisie Telecom. You solve customer problems step by step.
+ 
+LANGUAGE — strict rule:
+- Customer writes in Arabic → reply in standard Arabic (فصحى)
+- Customer writes in French → reply in French
+- Customer writes in English → reply in English
+- NEVER mix languages
+ 
+REQUIRED BEHAVIOR:
+1. Analyze the customer's problem
+2. Provide step-by-step solutions
+3. Ask questions if needed to better understand
+4. Give the number 1298 ONLY if all solutions have failed
+ 
+SOLUTIONS BY PROBLEM:
+ 
+SLOW / NO INTERNET:
+- Restart the router (turn off for 30 sec → turn back on)
+- Check the router lights (green = OK, red = problem)
+- Test with another device
+- Check your plan at mytt.tunisietelecom.tn
+- Check network coverage in your area
+ 
+NETWORK / COVERAGE:
+- Enable then disable airplane mode (10 seconds)
+- Move near a window or open space
+- Restart your phone
+- Check: tunisietelecom.tn/couverture
+ 
 RECHARGE / TTCASH:
-- Consulte ton solde: compose *123#
-- Recharge en ligne: mytt.tunisietelecom.tn (remise 10%)
-- Vérifie l'historique dans l'app My TT
-
-FACTURE:
-- Paiement en ligne: mytt.tunisietelecom.tn
-- Consulte ta facture: compose *100#
-- Vérifie ta consommation dans My TT
-
-APPELS / SMS:
-- Vérifie ton crédit: *123#
-- Redémarre le téléphone
-- Vérifie que la SIM est bien insérée
-
-FORFAITS DISPONIBLES:
-200Go/100DT/120j | 110Go/80DT/60j | 60Go/60DT/30j | 45Go/50DT/30j
-25Go/30DT/30j | 4Go/10DT/30j | 1.5Go/6DT/30j | 650Mo/3DT/7j | 100Mo/450millimes/nuit
-Achat en ligne → remise 10% sur mytt.tunisietelecom.tn
-
-RÈGLE ABSOLUE:
-- Essaie TOUJOURS de résoudre avant de dire "appelez le 1298"
-- Si toutes les solutions échouent → "Je vous recommande de contacter le support au 1298 ou 71001298 pour une assistance personnalisée"
-- Ne donne jamais de fausse information`;
-
-  function toggleChat() {
-    chatOpen = !chatOpen;
-    const win = document.getElementById('tt-chat-window');
-    win.style.display = chatOpen ? 'flex' : 'none';
-    document.getElementById('tt-chat-badge').style.display = 'none';
-    if (chatOpen && !welcomeDone) {
-      welcomeDone = true;
-      setTimeout(() => addBotMessage("Aaslema! 👋 Ana l'assistant rasmi mta3 Tunisie Telecom.\nF Chneya na3awnk el youm ?"), 400);
+- Check your balance: dial *123#
+- Recharge online: mytt.tunisietelecom.tn (10% discount)
+- Check history in the My TT app
+ 
+INVOICE:
+- Pay online: mytt.tunisietelecom.tn
+- Check your invoice: dial *100#
+- Check your usage in My TT
+ 
+CALLS / SMS:
+- Check your credit: *123#
+- Restart your phone
+- Make sure the SIM card is properly inserted
+ 
+AVAILABLE PLANS:
+200GB/100DT/120days | 110GB/80DT/60days | 60GB/60DT/30days | 45GB/50DT/30days
+25GB/30DT/30days | 4GB/10DT/30days | 1.5GB/6DT/30days | 650MB/3DT/7days | 100MB/450millimes/night
+Buy online → 10% discount at mytt.tunisietelecom.tn
+ 
+ABSOLUTE RULE:
+- ALWAYS try to resolve the issue before saying "call 1298"
+- If all solutions fail → "I recommend contacting support at 1298 or 71001298 for personalized assistance"
+- Never provide false information`;
+ 
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const win = document.getElementById('tt-chat-window');
+  win.style.display = chatOpen ? 'flex' : 'none';
+  document.getElementById('tt-chat-badge').style.display = 'none';
+  if (chatOpen && !welcomeDone) {
+    welcomeDone = true;
+    setTimeout(() => addBotMessage("Hello! 👋 I'm the official Tunisie Telecom virtual assistant.\nHow can I help you today?"), 400);
+  }
+  if (chatOpen) document.getElementById('tt-input').focus();
+}
+ 
+function now() {
+  return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+ 
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+ 
+function addUserMessage(text) {
+  const box = document.getElementById('tt-messages');
+  const d = document.createElement('div');
+  d.className = 'tt-msg user';
+  d.innerHTML = `<div class="tt-bubble">${escHtml(text)}</div><div class="tt-time">${now()}</div>`;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+ 
+function addBotMessage(text) {
+  const box = document.getElementById('tt-messages');
+  const d = document.createElement('div');
+  d.className = 'tt-msg bot';
+  d.innerHTML = `<div class="tt-bubble">${escHtml(text)}</div><div class="tt-time">${now()}</div>`;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+ 
+function showTyping() {
+  const box = document.getElementById('tt-messages');
+  const d = document.createElement('div');
+  d.className = 'tt-msg bot';
+  d.id = 'tt-typing';
+  d.innerHTML = `<div class="tt-typing"><span></span><span></span><span></span></div>`;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+ 
+function removeTyping() {
+  const t = document.getElementById('tt-typing');
+  if (t) t.remove();
+}
+ 
+function quickSend(text) {
+  document.getElementById('tt-input').value = text;
+  sendTTMessage();
+}
+ 
+async function sendTTMessage() {
+  const input = document.getElementById('tt-input');
+  const text = input.value.trim();
+  if (!text) return;
+ 
+  input.value = '';
+  addUserMessage(text);
+  chatHistory.push({ role: 'user', content: text });
+  showTyping();
+  document.getElementById('tt-send-btn').disabled = true;
+ 
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          ...chatHistory
+        ],
+        max_tokens: 700,
+        temperature: 0.4
+      })
+    });
+ 
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || 'API Error');
     }
-    if (chatOpen) document.getElementById('tt-input').focus();
+ 
+    const data = await res.json();
+    const reply = data.choices[0].message.content;
+    removeTyping();
+    addBotMessage(reply);
+    chatHistory.push({ role: 'assistant', content: reply });
+ 
+  } catch (err) {
+    removeTyping();
+    addBotMessage('⚠️ Technical issue 😔\nPlease contact our support at 1298 or 71001298.');
+    console.error('Groq error:', err);
   }
-
-  function now() {
-    return new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-  }
-
-  function escHtml(t) {
-    return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-  }
-
-  function addUserMessage(text) {
-    const box = document.getElementById('tt-messages');
-    const d = document.createElement('div');
-    d.className = 'tt-msg user';
-    d.innerHTML = `<div class="tt-bubble">${escHtml(text)}</div><div class="tt-time">${now()}</div>`;
-    box.appendChild(d);
-    box.scrollTop = box.scrollHeight;
-  }
-
-  function addBotMessage(text) {
-    const box = document.getElementById('tt-messages');
-    const d = document.createElement('div');
-    d.className = 'tt-msg bot';
-    d.innerHTML = `<div class="tt-bubble">${escHtml(text)}</div><div class="tt-time">${now()}</div>`;
-    box.appendChild(d);
-    box.scrollTop = box.scrollHeight;
-  }
-
-  function showTyping() {
-    const box = document.getElementById('tt-messages');
-    const d = document.createElement('div');
-    d.className = 'tt-msg bot';
-    d.id = 'tt-typing';
-    d.innerHTML = `<div class="tt-typing"><span></span><span></span><span></span></div>`;
-    box.appendChild(d);
-    box.scrollTop = box.scrollHeight;
-  }
-
-  function removeTyping() {
-    const t = document.getElementById('tt-typing');
-    if (t) t.remove();
-  }
-
-  function quickSend(text) {
-    document.getElementById('tt-input').value = text;
-    sendTTMessage();
-  }
-
-  async function sendTTMessage() {
-    const input = document.getElementById('tt-input');
-    const text = input.value.trim();
-    if (!text) return;
-
-    input.value = '';
-    addUserMessage(text);
-    chatHistory.push({ role: 'user', content: text });
-    showTyping();
-    document.getElementById('tt-send-btn').disabled = true;
-
-    try {
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-         model: 'llama-3.3-70b-versatile',
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            ...chatHistory
-          ],
-          max_tokens: 700,
-          temperature: 0.4
-        })
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error?.message || 'Erreur API');
-      }
-
-      const data = await res.json();
-      const reply = data.choices[0].message.content;
-      removeTyping();
-      addBotMessage(reply);
-      chatHistory.push({ role: 'assistant', content: reply });
-
-    } catch (err) {
-      removeTyping();
-      addBotMessage('⚠️ Mochkla technique😔\nklm ala 1298 walla 71001298 .');
-      console.error('Groq error:', err);
-    }
-
-    document.getElementById('tt-send-btn').disabled = false;
-    document.getElementById('tt-input').focus();
-  }
+ 
+  document.getElementById('tt-send-btn').disabled = false;
+  document.getElementById('tt-input').focus();
+}
 </script>
 </body>
 </html>
