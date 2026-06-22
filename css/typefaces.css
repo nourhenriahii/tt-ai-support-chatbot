@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "Frutiger-Light";
+  src: local(Frutiger), url(../fonts/Frutiger-Light.ttf) format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Frutiger-Bold";
+  src: local(Frutiger), url(../fonts/Frutiger-Bold.ttf) format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Frutiger-Roman";
+  src: local(Frutiger), url(../fonts/Frutiger-Roman.ttf) format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Frutiger-Black";
+  src: local(Frutiger), url(../fonts/Frutiger-Black.ttf) format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HeronSans";
+  src: local(HeronSans),
+    url(../fonts/font-bureau-heronsans-Light.otf) format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HeronSans-Bold";
+  src: local(HeronSans),
+       url(../fonts/font-bureau-heronsans-bold-webfont.woff2) format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HeronSans-Medium";
+  src: local(HeronSans),
+       url(../fonts/font-bureau-heronsans-medium-webfont.woff2) format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Heavitas";
+  src: local(HeronSans),
+    url(../fonts/heavitas-webfont.woff2) format("woff2"),
+    url(../fonts/heavitas-webfont.woff) format("woff");
+  font-display: swap;
+}

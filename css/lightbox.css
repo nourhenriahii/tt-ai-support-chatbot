@@ -1,0 +1,28 @@
+/* Correction 1 */
+.lb-outerContainer {
+    position: relative;
+    *zoom: 1;
+    width: 250px;
+    height: 250px;
+
+/* Correction 2 */
+.lb-dataContainer {
+    margin: 0 auto;
+    padding-top: 5px;
+    *zoom: 1;
+    width: 100%;
+
+/* Correction 3 */
+.card-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Correction 4 */
+.card-carousel .my-card.prev,
+.card-carousel .my-card.next {
+    visibility: visible;
+}
