@@ -28,9 +28,6 @@ A pixel-faithful clone of the **Tunisie Telecom** customer portal, enhanced with
 ### Homepage
 ![Homepage](screenshots/homepage.png)
 
-### Mobile Plans
-![Forfaits](screenshots/forfaits.png)
-
 ### AI Chatbot
 ![Chatbot](screenshots/chatbot.png)
 
