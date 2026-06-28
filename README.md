@@ -9,7 +9,7 @@
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![Netlify](https://img.shields.io/badge/Netlify-Deployed-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)
 
-**🌐 Live Demo → https://verdant-nougat-a79304.netlify.app**
+**🌐 Live Demo →https://tunisie-telecom-ai-assistant.netlify.app*
 
 </div>
 
